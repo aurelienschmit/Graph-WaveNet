@@ -5,7 +5,7 @@ df.to_csv('data/metr-la.csv')
 print("Exported to data/metr-la.csv")
 print(df.head())"""
 
-file_type = 'npz'
+""" file_type = 'npz'
 
 name = 'METR-LA/val'
 
@@ -18,5 +18,12 @@ if file_type == 'h5':
     print(df.shape)
 else :
     npz = np.load(directory)
-    #df= pd.DataFrame.from_dict({item: npz[item] for item in npz.files}, orient='index')
-    print(npz['x'])
+    #df= pd.DataFrame.from_dict({item: npz[item] for item in npz.files}, orient='index') """
+
+npz = np.load('data/METR-LA/train.npz')
+print(npz.files)  # Lists all arrays stored in the file
+
+# To access and print each array:
+for key in npz.files:
+    print(f"{key}: shape = {npz[key].shape}, dtype = {npz[key].dtype}")
+    print(npz[key])  # Or print(npz[key][:5]) for a preview 
