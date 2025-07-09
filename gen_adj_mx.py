@@ -39,6 +39,7 @@ def get_adjacency_matrix(distance_df, sensor_ids, normalized_k=0.1):
 
     # Sets entries that lower than a threshold, i.e., k, to zero for sparsity.
     adj_mx[adj_mx < normalized_k] = 0
+    print(f"Adjacency matrix shape: {adj_mx.shape}, ")
     return sensor_ids, sensor_id_to_ind, adj_mx
 
 
@@ -50,14 +51,17 @@ if __name__ == '__main__':
                         help='CSV file containing sensor distances with three columns: [from, to, distance].')
     parser.add_argument('--normalized_k', type=float, default=0.1,
                         help='Entries that become lower than normalized_k after normalization are set to zero for sparsity.')
-    parser.add_argument('--output_pkl_filename', type=str, default='data/sensor_graph/adj_mat.pkl',
+    parser.add_argument('--output_pkl_filename', type=str, default='data/sensor_graph/adj_mx.pkl',
                         help='Path of the output file.')
     args = parser.parse_args()
 
     with open(args.sensor_ids_filename) as f:
+        print("opening")
         sensor_ids = f.read().strip().split(',')
     distance_df = pd.read_csv(args.distances_filename, dtype={'from': 'str', 'to': 'str'})
     _, sensor_id_to_ind, adj_mx = get_adjacency_matrix(distance_df, sensor_ids, args.normalized_k)
     # Save to pickle file.
     with open(args.output_pkl_filename, 'wb') as f:
+        print(f"Pickle is being dumped to :{f}!")
         pickle.dump([sensor_ids, sensor_id_to_ind, adj_mx], f, protocol=2)
+        #pickle.dump((sensor_ids, sensor_id_to_ind, adj_mx), f, protocol=2)

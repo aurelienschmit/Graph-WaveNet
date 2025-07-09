@@ -17,6 +17,7 @@ def main(args, **model_kwargs):
     device = torch.device(args.device)
     data = util.load_dataset(args.data, args.batch_size, args.batch_size, args.batch_size, n_obs=args.n_obs, fill_zeroes=args.fill_zeroes)
     scaler = data['scaler']
+    #print(scaler)
     aptinit, supports = util.make_graph_inputs(args, device)
 
     model = GWNet.from_args(args, device, supports, aptinit, **model_kwargs)
@@ -97,6 +98,7 @@ if __name__ == "__main__":
     parser.add_argument('--es_patience', type=int, default=20, help='quit if no improvement after this many iterations')
 
     args = parser.parse_args()
+    #print(args)
     t1 = time.time()
     if not os.path.exists(args.save):
         os.mkdir(args.save)

@@ -116,6 +116,7 @@ def calculate_scaled_laplacian(adj_mx, lambda_max=2, undirected=True):
     return L.astype(np.float32).todense()
 
 def load_pickle(pickle_file):
+    print('loading data from', pickle_file)
     try:
         with open(pickle_file, 'rb') as f:
             pickle_data = pickle.load(f)
