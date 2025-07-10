@@ -160,6 +160,8 @@ class GWNet(nn.Module):
             residual = x
             # dilated convolution
             filter = torch.tanh(self.filter_convs[i](residual))
+            #print(self.filter_convs[i](residual).shape)
+            #print("sigmoid applied")
             gate = torch.sigmoid(self.gate_convs[i](residual))
             x = filter * gate
             # parametrized skip connection
