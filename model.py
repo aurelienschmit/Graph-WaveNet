@@ -159,10 +159,16 @@ class GWNet(nn.Module):
             # ---------------------------------------> + ------------->	*skip*
             residual = x
             # dilated convolution
+            print('We passed through the dilated convolution!')
             filter = torch.tanh(self.filter_convs[i](residual))
             #print(self.filter_convs[i](residual).shape)
             #print("sigmoid applied")
-            gate = torch.sigmoid(self.gate_convs[i](residual))
+            residual_reshaped = residual.permute(0, 2, 1, 3).contiguous().view(-1, residual.size(1), residual.size(3))
+            print('The shape of the residual reshaped is',residual_reshaped.shape)
+            print('We passed through the filter!')
+            gate = torch.sigmoid(self.gate_convs[i](residual_reshaped))
+            print('We passed through the gate!')
+            #gate = gate.view(residual.size(0), residual.size(2), -1, residual.size(3)).permute(0, 2, 1, 3).contiguous
             x = filter * gate
             # parametrized skip connection
             s = self.skip_convs[i](x)  # what are we skipping??
